@@ -230,7 +230,7 @@ sub canonical_request {
 	# We're not actually connecting to this so a default
 	# value should be safe here.
 	my $host_port = $self->host_port || 'localhost:8000';
-	my $u = URI->new('http://' . $host_port . $uri)->canonical;
+	my $u = URI->new(($uri =~ /^http/) ? $uri : ('http://' . $host_port . $uri))->canonical;
 	$uri = $u->path;
 	my $path = '';
 	while(length $uri) {
