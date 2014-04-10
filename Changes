@@ -1,4 +1,7 @@
 Revision history for WebService-Amazon-Signature
 
+0.002     2014-04-10 18:00:00 America/New_York
+        Remove use of POSIX::2008 use HTTP::Date instead.
+
 0.001     2013-11-01 05:41:12 Europe/London
 	Initial CPAN release

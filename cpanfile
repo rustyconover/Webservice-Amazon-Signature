@@ -1,6 +1,6 @@
 requires 'parent', 0;
 requires 'POSIX', 0;
-requires 'POSIX::2008', 0;
+requires 'HTTP::Date', 0;
 requires 'Digest::SHA', 0;
 requires 'Digest::HMAC', 0;
 requires 'List::UtilsBy', 0;

@@ -1,6 +1,6 @@
 package WebService::Amazon::Signature::v4;
 {
-  $WebService::Amazon::Signature::v4::VERSION = '0.001';
+  $WebService::Amazon::Signature::v4::VERSION = '0.002';
 }
 use strict;
 use warnings;
@@ -31,7 +31,7 @@ version 0.001
 =cut
 
 use POSIX qw(strftime);
-use POSIX::2008;
+use HTTP::Date;
 use Digest::SHA qw(sha256 sha256_hex);
 use Digest::HMAC qw(hmac hmac_hex);
 use List::UtilsBy qw(sort_by);
@@ -272,9 +272,15 @@ sub canonical_request {
 	}
 	my $query = join '&', sort @query;
 	$self->{date} = ($header{date} && eval {
-		my @parts = map $_ // 0, POSIX::2008::strptime $header{date}, '%a, %d %b %Y %H:%M:%S GMT';
-		@parts ? strftime '%Y%m%dT%H%M%SZ', @parts
-		: ();
+            my $parsed_time = HTTP::Date::str2time($header{date});
+            if ($parsed_time) {
+                my $formatted_time = HTTP::Date::time2isoz($parsed_time);
+                $formatted_time =~ s/[:-]//g;
+                $formatted_time =~ s/ /T/;
+                $formatted_time;
+            } else {
+                ();
+            }
 	}) || '20110909T23:36:00GMT';
 
 
